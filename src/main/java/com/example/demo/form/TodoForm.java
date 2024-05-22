@@ -13,4 +13,6 @@ public class TodoForm {
 	private String description;
 	
 	private boolean status;
+	@NotBlank(message = "日付け設定は必須です")
+	private String time_limit;
 }

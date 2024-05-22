@@ -46,7 +46,7 @@ public class TodoController {
 		}
 		
 		//フォームのデータを処理
-		todoService.addTodo(todoForm.getTitle(),todoForm.getDescription(),todoForm.isStatus());
+		todoService.addTodo(todoForm.getTitle(),todoForm.getDescription(),todoForm.isStatus(),todoForm.getTime_limit());
 		
 		return "redirect:/";
 	}
@@ -60,8 +60,12 @@ public class TodoController {
 	}
 	
 	@PostMapping("/todo/edit/{id}")
-	public String editTodo(@PathVariable("id") Long id, @ModelAttribute("todo") Todo todo) {
-		todoService.editTodo(id, todo.getTitle(),todo.getDescription(),todo.getStatus());
+	public String editTodo(@PathVariable("id") Long id, @Valid @ModelAttribute("todoForm")Todo todo,BindingResult result,Model model) {
+		if(result.hasErrors()) {
+			model.addAttribute("todoForm",todo);
+			return "edit-todo";
+		}
+		todoService.editTodo(id, todo.getTitle(),todo.getDescription(),todo.getTime_limit(),todo.getStatus());
 		return "redirect:/"; //更新後に一覧のページにリダイレクト
 	}
 	

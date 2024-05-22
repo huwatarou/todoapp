@@ -17,7 +17,7 @@ public class TodoRepository {
 	 */
 	public List<Map<String,Object>> findAll(){
 		List<Map<String,Object>> todos;
-		String query = "SELECT * FROM todos";
+		String query = "SELECT id, title, description, status, DATE_FORMAT(time_limit, '%Y-%m-%T') AS time_limit FROM todos";
 		try {
 			todos = jdbcTemplate.queryForList(query);
 		}catch(Exception e) {
@@ -30,9 +30,9 @@ public class TodoRepository {
 	/*
 	 * 新しいTodoをデータベースに追加するメソッド
 	 */
-	public void addTodo(String title,String description,Boolean status) {
-		String query = "INSERT INTO todos(title,description,status)VALUES(?,?,?)";
-		jdbcTemplate.update(query,title,description,status);
+	public void addTodo(String title, String description, Boolean status,String time_limit) {
+		String query =  "INSERT INTO todos (title, description, status,time_limit) VALUES(?, ?, ?, STR_TO_DATE(?, '%Y-%m-%d %T')) ";
+		jdbcTemplate.update(query, title, description, status,time_limit);
 	}
 	
 	/*
@@ -40,8 +40,7 @@ public class TodoRepository {
 	 */
 	
 	public Map<String,Object>getTodoItemById(Long id){
-		String query = "SELECT * FROM todos WHERE id = ?";
-		try {
+		  String query = "SELECT id, title, description, status, DATE_FORMAT(time_limit, '%Y-%m-%T') AS time_limit FROM todos WHERE id = ?";		try {
 			return jdbcTemplate.queryForMap(query,id);
 		}catch(Exception e) {
 			//SQLクエリの実行中に発生した予期しないエラーを補足
@@ -53,9 +52,9 @@ public class TodoRepository {
 	/**
 	 * 修正するメソッド
 	 */
-	public void editTodo(String title,String description,Boolean status) {
-		String query = "UPDETE todos SET title = ?, description = ?, status = ? WHERE id = ?";
-		jdbcTemplate.update(query,title,description,status);
+	public void editTodo(Long id,String title,String description,String time_limit,Boolean status) {
+		String query = "UPDATE todos SET title = ?, description = ?, time_limit = STR_TO_DATE(?, '%Y-%m-%d %T'),status = ? WHERE id = ?";
+		jdbcTemplate.update(query,title,description,time_limit,status,id);
 	}
 	
 	/*
