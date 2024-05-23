@@ -29,6 +29,7 @@ public class TodoService {
 			String title = (String) mapTodo.get("title");
 			String description = (String) mapTodo.get("description");
 			Boolean status = (Boolean) mapTodo.get("status");
+			String  time_limit = (String) mapTodo.get("time_limit");
 			
 			// Todoエンティティを作成して値をセット
 			Todo todo = new Todo();
@@ -36,6 +37,7 @@ public class TodoService {
 			todo.setTitle(title);
 			todo.setDescription(description);
 			todo.setStatus(status);
+			todo.setTime_limit(time_limit);
 			
 			// リストに追加
 			todoList.add(todo);
@@ -44,8 +46,8 @@ public class TodoService {
 	}
 	
 	//追加
-	public void addTodo(String title,String description, Boolean status) {
-		todoRepository.addTodo(title, description, status);
+	public void addTodo(String title,String description, Boolean status,String time_limit) {
+		todoRepository.addTodo(title, description, status,time_limit);
 	}
 	
 	
@@ -57,6 +59,7 @@ public class TodoService {
 			String title = (String) mapTodo.get("title");
 			String description = (String) mapTodo.get("description");
 			Boolean status = (Boolean) mapTodo.get("status");
+			String  time_limit = (String) mapTodo.get("time_limit");
 			
 			// Todoエンティティを作成して値をセット
 			Todo todo = new Todo();
@@ -64,13 +67,14 @@ public class TodoService {
 			todo.setTitle(title);
 			todo.setDescription(description);
 			todo.setStatus(status);
+			todo.setTime_limit(time_limit);
 
 		return todo;
 	}
 	
 	//追加
-	public void editTodo(Long id,String title,String description, Boolean status) {
-		todoRepository.addTodo(title, description, status);
+	public void editTodo(Long id,String title,String description,String time_limit, Boolean status) {
+		todoRepository.editTodo(id, title, description,time_limit, status);
 	}
 	
 	public void deleteTodoItem(Long id) {
