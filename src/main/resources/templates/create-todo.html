@@ -15,14 +15,23 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Flatpickr Locale Japanese -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
-    <link rel="stylesheet" href="styles.css">
+     <link th:href="@{/css/styles.css}" rel="stylesheet">
 
     <title>ToDoリスト</title>
 </head>
 <body>
-<h1 class="text-center text-white p-2 bg-dark bg-gradient text-uppercase">新しいToDoを作成</h1>
+		<nav class="navbar bg-dark text-uppercase">
+	<div class="container-fluid">
+    	<a class="navbar-brand text-white" th:href="@{/}">TODOアプリ</a>
+    	<form th:action="@{/logout}" method="post">
+			<span class="text-light" th:text="|ログインID：${#authentication.principal.username}|"></span>
+			<input type="submit" class="btn btn-light" value="ログアウト" />
+		</form>
+	</div>
+</nav>
+<h1 class="text-center">新しいToDoを作成</h1>
 
-<div class="container border border-primary border border-5 rounded mt-5 col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6"  style="background-color:gainsboro ;">
+<div class="container border border-primary border border-3 rounded mt-5 col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6"  style="background-color:rgb(197, 197, 197) ;">
 
 <form class="row g-3" action="#" th:action="@{/addTodo}" th:object="${todoForm}" method="post">
         
